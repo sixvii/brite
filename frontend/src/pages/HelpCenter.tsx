@@ -14,7 +14,6 @@ import {
 } from '@/components/ui/select';
 import { apiJson } from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 
 const helpSchema = z.object({
@@ -27,7 +26,6 @@ const helpSchema = z.object({
 
 const HelpCenter = () => {
   const { user, profile } = useAuth();
-  const { toast } = useToast();
   
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -63,11 +61,6 @@ const HelpCenter = () => {
         message: data.message,
       });
 
-      toast({
-        title: 'Request submitted!',
-        description: 'We will get back to you as soon as possible.',
-      });
-
       setFormData({
         name: profile?.name || '',
         email: profile?.email || '',
@@ -84,12 +77,6 @@ const HelpCenter = () => {
           }
         });
         setErrors(newErrors);
-      } else {
-        toast({
-          title: 'Error',
-          description: 'Failed to submit request. Please try again.',
-          variant: 'destructive',
-        });
       }
     } finally {
       setLoading(false);

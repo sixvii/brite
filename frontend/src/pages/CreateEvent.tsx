@@ -18,7 +18,6 @@ import {
 } from '@/components/ui/select';
 import { apiForm } from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
 
 interface EventDate {
   date: Date;
@@ -46,7 +45,6 @@ const categories = [
 const CreateEvent = () => {
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-  const { toast } = useToast();
 
   const [loading, setLoading] = useState(false);
   const [images, setImages] = useState<File[]>([]);
@@ -147,29 +145,14 @@ const CreateEvent = () => {
 
     // Validation
     if (!title || !category || !city || eventDates.length === 0) {
-      toast({
-        title: 'Missing fields',
-        description: 'Please fill in all required fields: Title, Category, City, and at least one Event Date.',
-        variant: 'destructive',
-      });
       return;
     }
 
     if (!isOnline && !venueName) {
-      toast({
-        title: 'Missing Venue',
-        description: 'For in-person events, please enter a venue name.',
-        variant: 'destructive',
-      });
       return;
     }
 
     if (images.length === 0) {
-      toast({
-        title: 'Missing Image',
-        description: 'Please upload at least one event image.',
-        variant: 'destructive',
-      });
       return;
     }
 
@@ -225,19 +208,9 @@ const CreateEvent = () => {
         eventDates: eventDates.length,
       });
 
-      toast({
-        title: 'Event created!',
-        description: 'Your event has been created successfully.',
-      });
-
       navigate(`/event/${eventData?.id}`);
     } catch (error) {
       console.error('Error creating event:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to create event. Please try again.',
-        variant: 'destructive',
-      });
     } finally {
       setLoading(false);
     }

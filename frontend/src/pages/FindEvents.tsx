@@ -112,11 +112,11 @@ const FindEvents = () => {
           {/* Overlay: dark on left, fade to transparent right */}
           <div className="absolute inset-0 bg-gradient-to-r from-black/70 via-black/40 to-transparent" />
           <div className="relative z-10 flex flex-col justify-center h-full pl-8 md:pl-16 max-w-[600px]">
-            <h1 className="text-xl md:text-2xl font-bold text-white mb-4 leading-tight">
+            <h1 className="text-[16px] md:text-2xl font-bold text-white mb-4 leading-tight">
               Best events in <br />
-              <span className="text-3xl md:text-3xl font-extrabold">{location.split(',')[0]}</span>
+              <span className="text-xl md:text-3xl font-extrabold">{location.split(',')[0]}</span>
             </h1>
-            <p className="text-[14.5px] md:text-[14.5px] text-white/90 mb-8 max-w-xl">
+            <p className="text-[12.5px] md:text-[14.5px] text-white/90 mb-8 max-w-xl">
               Looking for something to do in {location.split(',')[0]}? Whether you're a local, new in town or just cruising through we've got loads of great tips and events. You can explore by location, what's popular, our top picks, free stuff... you got this. Ready?
             </p>
             <div>
@@ -145,7 +145,7 @@ const FindEvents = () => {
           <h2 className="text-xl font-semibold text-foreground">Online Events</h2>
           <button
             onClick={() => navigate('/find-events?location=Online Events')}
-            className="text-min text-accent gap-1 flex items-center cursor-pointer"
+            className="text-[12.5px] sm:text-min text-accent gap-1 flex items-center cursor-pointer"
           >
             Browse more events
             <ArrowRight className="w-4 h-4" />
@@ -192,7 +192,7 @@ const FindEvents = () => {
           <h2 className="text-xl font-semibold text-foreground">In Person Events</h2>
           <button
             onClick={() => navigate(`/find-events?location=${encodeURIComponent(location)}`)}
-            className="text-min text-accent gap-1 flex items-center cursor-pointer"
+            className="text-[12.5px] sm:text-min text-accent gap-1 flex items-center cursor-pointer"
           >
             Browse more events
             <ArrowRight className="w-4 h-4" />

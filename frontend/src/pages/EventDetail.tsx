@@ -18,7 +18,6 @@ import UserAvatar from '@/components/ui/UserAvatar';
 import { Button } from '@/components/ui/button';
 import { apiFetch, apiJson } from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
 import { motion, AnimatePresence } from 'framer-motion';
 
 interface EventData {
@@ -50,7 +49,6 @@ const EventDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { toast } = useToast();
 
   const [event, setEvent] = useState<EventData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -82,11 +80,6 @@ const EventDetail = () => {
       setEventCount(engagement.organizerEventCount);
     } catch (error) {
       console.error('Error fetching event:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load event details.',
-        variant: 'destructive',
-      });
     } finally {
       setLoading(false);
     }
@@ -132,10 +125,6 @@ const EventDetail = () => {
     } catch (error) {
       // Fallback to copying to clipboard
       navigator.clipboard.writeText(window.location.href);
-      toast({
-        title: 'Link copied!',
-        description: 'Event link copied to clipboard.',
-      });
     }
   };
 

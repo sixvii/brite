@@ -6,7 +6,6 @@ import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { apiFetch } from '@/lib/api';
-import { useToast } from '@/hooks/use-toast';
 
 interface Ticket {
   id: string;
@@ -32,7 +31,6 @@ const TicketDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const location = useLocation();
-  const { toast } = useToast();
   const stateTicket = (location.state as { ticket?: Ticket } | null)?.ticket || null;
   const [ticket, setTicket] = useState<Ticket | null>(stateTicket);
   const [loading, setLoading] = useState(!stateTicket);
@@ -60,11 +58,6 @@ const TicketDetail = () => {
       setTicket(data);
     } catch (error) {
       console.error('Error fetching ticket:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load ticket details.',
-        variant: 'destructive',
-      });
     } finally {
       if (!silent) {
         setLoading(false);

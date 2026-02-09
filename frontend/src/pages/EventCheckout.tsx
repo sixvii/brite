@@ -9,7 +9,6 @@ import { Label } from '@/components/ui/label';
 import { Calendar } from '@/components/ui/calendar';
 import { apiFetch, apiForm } from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
 import { cn } from '@/lib/utils';
 
 interface EventDate {
@@ -41,7 +40,6 @@ const EventCheckout = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user } = useAuth();
-  const { toast } = useToast();
 
   const [event, setEvent] = useState<EventData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -70,11 +68,6 @@ const EventCheckout = () => {
       setEvent(data);
     } catch (error) {
       console.error('Error fetching event:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load checkout details.',
-        variant: 'destructive',
-      });
     } finally {
       setLoading(false);
     }
@@ -110,29 +103,14 @@ const EventCheckout = () => {
 
   const handleCheckout = async () => {
     if (!user || !event || !selectedDateId) {
-      toast({
-        title: 'Missing information',
-        description: 'Please select a date.',
-        variant: 'destructive',
-      });
       return;
     }
 
     if (!event.isFree && !selectedPaymentMethod) {
-      toast({
-        title: 'Missing information',
-        description: 'Please select a payment method.',
-        variant: 'destructive',
-      });
       return;
     }
 
     if (!event.isFree && !receiptFile) {
-      toast({
-        title: 'Receipt required',
-        description: 'Please upload your payment receipt.',
-        variant: 'destructive',
-      });
       return;
     }
 
@@ -153,21 +131,9 @@ const EventCheckout = () => {
 
       await apiForm('/tickets', 'POST', formData);
 
-      toast({
-        title: 'Success!',
-        description: event.isFree 
-          ? 'Your ticket has been confirmed!' 
-          : 'Your booking is pending verification.',
-      });
-
       navigate('/my-tickets');
     } catch (error) {
       console.error('Error creating ticket:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to complete booking. Please try again.',
-        variant: 'destructive',
-      });
     } finally {
       setSubmitting(false);
     }

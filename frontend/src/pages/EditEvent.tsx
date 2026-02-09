@@ -27,7 +27,6 @@ import {
 } from '@/components/ui/alert-dialog';
 import { apiFetch, apiForm } from '@/lib/api';
 import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
 
 interface EventDate {
   id?: string;
@@ -78,7 +77,6 @@ const EditEvent = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
   const { user, loading: authLoading } = useAuth();
-  const { toast } = useToast();
 
   const [event, setEvent] = useState<EventData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -121,11 +119,6 @@ const EditEvent = () => {
 
       // Check if user is the organizer
       if (data.organizerId !== user?.id) {
-        toast({
-          title: 'Access Denied',
-          description: 'You can only edit your own events.',
-          variant: 'destructive',
-        });
         navigate('/dashboard');
         return;
       }
@@ -155,11 +148,6 @@ const EditEvent = () => {
       setEventDates(parsedDates);
     } catch (error) {
       console.error('Error fetching event:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to load event details.',
-        variant: 'destructive',
-      });
       navigate('/dashboard');
     } finally {
       setLoading(false);
@@ -208,20 +196,10 @@ const EditEvent = () => {
     e.preventDefault();
 
     if (!title || !category || !city || eventDates.length === 0) {
-      toast({
-        title: 'Missing fields',
-        description: 'Please fill in all required fields.',
-        variant: 'destructive',
-      });
       return;
     }
 
     if (!isOnline && !venueName) {
-      toast({
-        title: 'Missing Venue',
-        description: 'For in-person events, please enter a venue name.',
-        variant: 'destructive',
-      });
       return;
     }
 
@@ -260,19 +238,9 @@ const EditEvent = () => {
 
       await apiForm(`/events/${id}`, 'PUT', formData);
 
-      toast({
-        title: 'Event updated!',
-        description: 'Your event has been updated successfully.',
-      });
-
       navigate('/dashboard');
     } catch (error) {
       console.error('Error updating event:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to update event. Please try again.',
-        variant: 'destructive',
-      });
     } finally {
       setSaving(false);
     }
@@ -284,19 +252,9 @@ const EditEvent = () => {
       formData.append('status', 'cancelled');
       await apiForm(`/events/${id}`, 'PUT', formData);
 
-      toast({
-        title: 'Event cancelled',
-        description: 'Your event has been cancelled successfully.',
-      });
-
       navigate('/dashboard');
     } catch (error) {
       console.error('Error cancelling event:', error);
-      toast({
-        title: 'Error',
-        description: 'Failed to cancel event. Please try again.',
-        variant: 'destructive',
-      });
     }
   };
 

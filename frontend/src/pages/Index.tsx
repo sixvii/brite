@@ -171,12 +171,12 @@ const Index = () => {
       {/* Events Section */}
       <div className="container-main py-6">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-xl font-semibold text-foreground">
+          <h2 className="text-[13px] sm:text-xl font-semibold text-foreground">
             Events in {location}
           </h2>
           <button
             onClick={() => navigate('/find-events')}
-            className="text-min text-accent gap-1 flex items-center cursor-pointer"
+            className="text-[12.5px] sm:text-min text-accent gap-1 flex items-center cursor-pointer"
           >
             Browse more events
             <ArrowRight className="w-4 h-4" />

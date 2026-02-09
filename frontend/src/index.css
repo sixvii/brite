@@ -209,6 +209,11 @@
     @apply lg:px-8 lg:py-6 lg:text-xl;
   }
 
+  .auth-input {
+    @apply border-gray-300 focus:border-gray-300 focus:ring-0 focus:ring-transparent;
+    @apply focus-visible:border-gray-300 focus-visible:ring-0 focus-visible:ring-transparent;
+  }
+
   .create-event-form .form-input,
   .create-event-form .form-input-lg,
   .create-event-form input,

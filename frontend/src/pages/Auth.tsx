@@ -7,7 +7,6 @@ import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { useAuth } from '@/contexts/AuthContext';
-import { useToast } from '@/hooks/use-toast';
 import { z } from 'zod';
 
 const loginSchema = z.object({
@@ -31,7 +30,6 @@ const signupSchema = z.object({
 const Auth = () => {
   const navigate = useNavigate();
   const { signIn, signUp } = useAuth();
-  const { toast } = useToast();
   
   const [isLogin, setIsLogin] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -66,26 +64,8 @@ const Auth = () => {
       const { error } = await signIn(data.email, data.password);
 
       if (error) {
-        if (error.message.includes('Invalid login credentials')) {
-          toast({
-            title: 'Login failed',
-            description: 'Invalid email or password. Please try again.',
-            variant: 'destructive',
-          });
-        } else {
-          toast({
-            title: 'Login failed',
-            description: error.message,
-            variant: 'destructive',
-          });
-        }
         return;
       }
-
-      toast({
-        title: 'Welcome back!',
-        description: 'You have successfully logged in.',
-      });
       navigate('/');
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -125,26 +105,8 @@ const Auth = () => {
       });
 
       if (error) {
-        if (error.message.includes('already registered')) {
-          toast({
-            title: 'Account exists',
-            description: 'This email is already registered. Please log in instead.',
-            variant: 'destructive',
-          });
-        } else {
-          toast({
-            title: 'Signup failed',
-            description: error.message,
-            variant: 'destructive',
-          });
-        }
         return;
       }
-
-      toast({
-        title: 'Account created!',
-        description: 'Please check your email to verify your account.',
-      });
       navigate('/');
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -188,7 +150,7 @@ const Auth = () => {
                   type="email"
                   value={loginEmail}
                   onChange={(e) => setLoginEmail(e.target.value)}
-                  className="form-input-lg mt-1"
+                  className="form-input-lg auth-input mt-1"
                   placeholder="Enter your email"
                 />
                 {errors.email && (
@@ -204,7 +166,7 @@ const Auth = () => {
                     type={showPassword ? 'text' : 'password'}
                     value={loginPassword}
                     onChange={(e) => setLoginPassword(e.target.value)}
-                    className="form-input-lg pr-12"
+                      className="form-input-lg auth-input pr-12"
                     placeholder="Enter your password"
                   />
                   <button
@@ -233,7 +195,7 @@ const Auth = () => {
               Don't have an account?{' '}
               <button
                 onClick={() => setIsLogin(false)}
-                className="text-accent hover:underline font-medium"
+                className="text-black hover:underline font-[500]"
               >
                 Sign up
               </button>
@@ -257,7 +219,7 @@ const Auth = () => {
                   type="text"
                   value={signupName}
                   onChange={(e) => setSignupName(e.target.value)}
-                  className="form-input-lg mt-1"
+                  className="form-input-lg auth-input mt-1"
                   placeholder="Your name or company name"
                 />
                 {errors.name && (
@@ -290,7 +252,7 @@ const Auth = () => {
                   type="email"
                   value={signupEmail}
                   onChange={(e) => setSignupEmail(e.target.value)}
-                  className="form-input-lg mt-1"
+                  className="form-input-lg auth-input mt-1"
                   placeholder="Enter your email"
                 />
                 {errors.email && (
@@ -305,7 +267,7 @@ const Auth = () => {
                   type="tel"
                   value={signupPhone}
                   onChange={(e) => setSignupPhone(e.target.value)}
-                  className="form-input-lg mt-1"
+                  className="form-input-lg auth-input mt-1"
                   placeholder="Enter your phone number"
                 />
               </div>
@@ -318,7 +280,7 @@ const Auth = () => {
                     type={showPassword ? 'text' : 'password'}
                     value={signupPassword}
                     onChange={(e) => setSignupPassword(e.target.value)}
-                    className="form-input-lg pr-12"
+                    className="form-input-lg auth-input pr-12"
                     placeholder="Create a password"
                   />
                   <button
@@ -342,7 +304,7 @@ const Auth = () => {
                     type={showConfirmPassword ? 'text' : 'password'}
                     value={signupConfirmPassword}
                     onChange={(e) => setSignupConfirmPassword(e.target.value)}
-                    className="form-input-lg pr-12"
+                    className="form-input-lg auth-input pr-12"
                     placeholder="Confirm your password"
                   />
                   <button
@@ -386,14 +348,12 @@ const Auth = () => {
               Already have an account?{' '}
               <button
                 onClick={() => setIsLogin(true)}
-                className="text-accent hover:underline font-medium"
+                className="text-black hover:underline font-[500]"
               >
                 Log in
               </button>
             </p>
-            <p className="text-center text-min text-muted-foreground mt-2">
-              After sign up, verify in your email then log in
-            </p>
+        
           </div>
         )}
         </div>
